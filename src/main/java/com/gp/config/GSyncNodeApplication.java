@@ -11,13 +11,13 @@ import org.springframework.context.annotation.Import;
 	StompBrokerConfig.class
 	})
 
-public class GSyncServerApp{
+public class GSyncNodeApplication{
 
     /**
 	 * The main entrance of application 
 	 **/
 	public static void main(String[] args) {
-		SpringApplication app = new SpringApplication(GSyncServerApp.class);
+		SpringApplication app = new SpringApplication(GSyncNodeApplication.class);
 		//app.addListeners(new AppContextListener());
         app.run( args);
     }
