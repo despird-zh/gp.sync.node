@@ -82,8 +82,9 @@ public class SyncStompClient {
 	}
 	
 	public void disconnect() {
-	
+		
 		this.stompSession.disconnect();
+		this.stompClient.stop();
 	}
 	
 	public boolean isReady() {

@@ -145,6 +145,10 @@ public class SyncTestMain {
 		JButton btnNewButton_1 = new JButton("send");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(!support.isReady()) {
+					appendLog("not ready please connect first");
+					return;
+				}
 				String url = apiPrefix.getText() + comboAPIs.getModel().getElementAt(comboAPIs.getSelectedIndex());
 				String msg = sendArea.getText();
 				String token = tokenText.getText();

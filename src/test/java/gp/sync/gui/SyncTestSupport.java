@@ -58,7 +58,6 @@ public class SyncTestSupport {
 	    		String token = (String)map.get("data");
 	    		main.setToken(token);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		main.appendLog("Login Done.");
@@ -81,5 +80,9 @@ public class SyncTestSupport {
 		main.appendLog("Start disconnect ...");
 		stompClient.disconnect();
 		main.appendLog("disconnect done.");
+	}
+	
+	public boolean isReady() {
+		return stompClient != null && stompClient.isReady();
 	}
 }
