@@ -12,10 +12,12 @@ import java.awt.Dimension;
 import javax.swing.JComboBox;
 import javax.swing.JSplitPane;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.BadLocationException;
+
+import org.apache.commons.lang.StringUtils;
+
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -38,7 +40,7 @@ public class SyncTestMain {
 	private JTextArea logText;
 	private JTextArea sendArea;
 	private JTextArea receiveArea;
-	private JComboBox comboAPIs;
+	private JComboBox<String> comboAPIs;
 	/**
 	 * Launch the application.
 	 */
@@ -121,8 +123,8 @@ public class SyncTestMain {
 		lblNewLabel_3.setBounds(6, 62, 61, 16);
 		panel_2.add(lblNewLabel_3);
 		
-		comboAPIs = new JComboBox();
-		comboAPIs.setModel(new DefaultComboBoxModel(new String[] {"/hello"}));
+		comboAPIs = new JComboBox<String>();
+		comboAPIs.setModel(new DefaultComboBoxModel<String>(new String[] {"/hello", "/test"}));
 		comboAPIs.setBounds(358, 58, 298, 27);
 		panel_2.add(comboAPIs);
 		
@@ -192,9 +194,15 @@ public class SyncTestMain {
 		JButton btnConnect = new JButton("connect");
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String url = "ws://" + txtLocalhost.getText() + ":" + txtPort.getText() + endpointText.getText();
+				String token = tokenText.getText();
+				if(StringUtils.isNotBlank(token)) {
+					support.connect(token, url);
+					return;
+				}
 				String login = loginText.getText();
 				String passcode = passText.getText();
-				String url = "ws://" + txtLocalhost.getText() + ":" + txtPort.getText() + endpointText.getText();
+				
 				support.connect(login, passcode, url);
 			}
 		});

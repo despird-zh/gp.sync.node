@@ -69,6 +69,35 @@ public class SyncStompClient {
         }; 
         listenableFuture.addCallback(successCallback, failureCallback);
 	}
+	
+	public void connect(String token) {
+		
+		WebSocketClient webSocketClient = new StandardWebSocketClient();
+        stompClient = new WebSocketStompClient(webSocketClient);
+        stompClient.setMessageConverter(this.messageConverter);
+        stompClient.setTaskScheduler(new ConcurrentTaskScheduler());
+
+        StompSessionHandler sessionHandler = new MySessionHandler();
+        WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
+        headers.add("token", token);
+        
+        ListenableFuture<StompSession> listenableFuture = stompClient.connect(url, headers, sessionHandler);
+        SuccessCallback<StompSession> successCallback = new SuccessCallback<StompSession>() {  
+            @Override  
+            public void onSuccess(StompSession session) {  
+                stompSession = session;
+                LOGGER.debug("success get stomp session");
+            }  
+        }; 
+        FailureCallback failureCallback = new FailureCallback() {  
+            @Override  
+            public void onFailure(Throwable throwable) {  
+            		stompSession = null; 
+            		LOGGER.debug("fail get stomp session");
+            }  
+        }; 
+        listenableFuture.addCallback(successCallback, failureCallback);
+	}
 
 	public void send(String url, String token, String msg) {
 		

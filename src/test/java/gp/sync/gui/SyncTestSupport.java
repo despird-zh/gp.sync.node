@@ -1,6 +1,5 @@
 package gp.sync.gui;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.gp.sync.web.socket.SyncStompClient;
 import com.gp.web.BaseController;
@@ -70,9 +68,16 @@ public class SyncTestSupport {
 	}
 	
 	public void connect(String login, String passcode, String url) {
-		main.appendLog("Start connect ...");
+		main.appendLog("Start connect via login/pass ...");
 		stompClient = new SyncStompClient(url);
 		stompClient.connect(login, passcode);
+		main.appendLog("connect done.");
+	}
+	
+	public void connect(String token, String url) {
+		main.appendLog("Start connect via token ...");
+		stompClient = new SyncStompClient(url);
+		stompClient.connect(token);
 		main.appendLog("connect done.");
 	}
 	
