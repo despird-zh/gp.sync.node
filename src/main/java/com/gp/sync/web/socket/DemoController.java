@@ -1,4 +1,4 @@
-package com.gp.sync.web.service;
+package com.gp.sync.web.socket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

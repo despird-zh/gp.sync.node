@@ -1,4 +1,4 @@
-package com.gp.sync.web.socket;
+package com.gp.sync.web.model;
 
 public class Greeting {
     private String content;

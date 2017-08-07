@@ -36,8 +36,7 @@ import com.gp.web.servlet.ServiceFilter;
 	})
 @ComponentScan(basePackages = { 
 		"com.gp.core",
-		"com.gp.sync.svc",
-		"com.gp.sync.web"
+		"com.gp.sync.svc"
  })
 public class RootConfigurer {
 	

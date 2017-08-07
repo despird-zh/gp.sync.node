@@ -8,7 +8,7 @@ import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 
-import com.gp.sync.web.socket.Greeting;
+import com.gp.sync.web.model.Greeting;
 
 import java.lang.reflect.Type;
 
