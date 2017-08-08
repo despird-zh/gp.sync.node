@@ -1,16 +1,12 @@
 package com.gp.sync;
 
-import java.util.Collection;
-
 import com.gp.disruptor.EventPayload;
 import com.gp.disruptor.EventType;
 
-public class SyncEventLoad implements EventPayload{
+public class SyncEventLoad extends EventPayload{
 
-	@Override
-	public EventType getEventType() {
-		
-		return EventType.SYNC;
+	public SyncEventLoad() {
+		this.setEventType(EventType.SYNC);
 	}
 
 	public String getData() {
@@ -23,11 +19,5 @@ public class SyncEventLoad implements EventPayload{
 
 	private String data;
 
-	@Override
-	public Collection<EventPayload> getChainEventPayloads() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	
 }
