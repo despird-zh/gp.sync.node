@@ -16,8 +16,6 @@ import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
-import gp.sync.ws.MySessionHandler;
-
 public class SyncStompClient {
 	
 	static Logger LOGGER = LoggerFactory.getLogger(SyncStompClient.class);
@@ -47,7 +45,7 @@ public class SyncStompClient {
         stompClient.setMessageConverter(this.messageConverter);
         stompClient.setTaskScheduler(new ConcurrentTaskScheduler());
 
-        StompSessionHandler sessionHandler = new MySessionHandler();
+        StompSessionHandler sessionHandler = new SyncClientSessionHandler();
         WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
         headers.add("passcode", passcode);
         headers.add("login", login);
@@ -77,7 +75,7 @@ public class SyncStompClient {
         stompClient.setMessageConverter(this.messageConverter);
         stompClient.setTaskScheduler(new ConcurrentTaskScheduler());
 
-        StompSessionHandler sessionHandler = new MySessionHandler();
+        StompSessionHandler sessionHandler = new SyncClientSessionHandler();
         WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
         headers.add("token", token);
         
@@ -114,6 +112,7 @@ public class SyncStompClient {
 		
 		this.stompSession.disconnect();
 		this.stompClient.stop();
+		this.stompSession = null;
 	}
 	
 	public boolean isReady() {
