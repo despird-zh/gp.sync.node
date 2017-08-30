@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gp.core.CoreEngine;
-import com.gp.core.CoreHooker;
+import com.gp.core.CoreHandler;
 import com.gp.disruptor.EventDispatcher;
 import com.gp.exception.BaseException;
 
@@ -41,8 +41,8 @@ public class CoreStarter implements ServletContextListener{
 		try {
 
 			// register the core event hooker
-			CoreHooker coreHooker = new CoreHooker();
-			EventDispatcher.getInstance().regEventHooker(coreHooker);
+			CoreHandler coreHooker = new CoreHandler();
+			EventDispatcher.getInstance().regEventHandler(coreHooker);
 			// initialize the engine
 			CoreEngine.initial();
 			LOGGER.debug("CoreEngine initialized");

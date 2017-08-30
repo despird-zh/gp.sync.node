@@ -25,7 +25,7 @@ import com.gp.core.AppContextHelper;
 import com.gp.sync.AppContextListener;
 import com.gp.sync.web.socket.AgentSessionRegistry;
 import com.gp.sync.CoreStarter;
-import com.gp.web.servlet.ServiceFilter;
+import com.gp.web.servlet.ServiceTokenFilter;
 
 /**
  *
@@ -72,15 +72,15 @@ public class RootConfigurer {
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(false);
 		config.addAllowedOrigin("*");
-		config.addAllowedHeader(ServiceFilter.AUTH_HEADER);
+		config.addAllowedHeader(ServiceTokenFilter.AUTH_HEADER);
 		config.addAllowedHeader("content-type");// required, otherwise the preflight not work
 		config.addAllowedMethod("*");
-		source.registerCorsConfiguration( ServiceFilter.FILTER_PREFIX + "/**", config);
+		source.registerCorsConfiguration( ServiceTokenFilter.FILTER_PREFIX + "/**", config);
         
-		FilterRegistrationBean bean = new FilterRegistrationBean(new ServiceFilter(source));
+		FilterRegistrationBean bean = new FilterRegistrationBean(new ServiceTokenFilter(source));
 		
 		List<String> urlPatterns = new ArrayList<String>();
-        urlPatterns.add(ServiceFilter.FILTER_PREFIX + "/*");
+        urlPatterns.add(ServiceTokenFilter.FILTER_PREFIX + "/*");
         
         bean.setUrlPatterns(urlPatterns);
 		bean.setOrder(2);

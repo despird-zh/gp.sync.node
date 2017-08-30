@@ -8,10 +8,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gp.web.ActionResult;
 import com.gp.web.BaseController;
-import com.gp.web.servlet.ServiceFilter;
+import com.gp.web.servlet.ServiceTokenFilter;
 
 @RestController
-@RequestMapping(ServiceFilter.FILTER_PREFIX)
+@RequestMapping(ServiceTokenFilter.FILTER_PREFIX)
 public class DetectController extends BaseController{
  
     @RequestMapping(value="detect.do", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
