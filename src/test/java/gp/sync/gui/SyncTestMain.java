@@ -94,7 +94,7 @@ public class SyncTestMain {
 		panel_2.add(lblNewLabel);
 		
 		endpointText = new JTextField();
-		endpointText.setText("/hello");
+		endpointText.setText("/stomp");
 		endpointText.setBounds(385, 1, 271, 26);
 		panel_2.add(endpointText);
 		endpointText.setColumns(10);
