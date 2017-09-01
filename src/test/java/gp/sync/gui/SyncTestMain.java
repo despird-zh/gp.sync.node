@@ -38,8 +38,8 @@ public class SyncTestMain {
 	private JTextField txtLocalhost;
 	private JTextField txtPort;
 	private JTextArea logText;
-	private JTextArea sendArea;
-	private JTextArea receiveArea;
+	JTextArea sendArea;
+	JTextArea receiveArea;
 	private JComboBox<String> comboAPIs;
 	/**
 	 * Launch the application.
@@ -94,7 +94,7 @@ public class SyncTestMain {
 		panel_2.add(lblNewLabel);
 		
 		endpointText = new JTextField();
-		endpointText.setText("/stomp");
+		endpointText.setText("/gpcenter");
 		endpointText.setBounds(385, 1, 271, 26);
 		panel_2.add(endpointText);
 		endpointText.setColumns(10);
@@ -124,12 +124,21 @@ public class SyncTestMain {
 		panel_2.add(lblNewLabel_3);
 		
 		comboAPIs = new JComboBox<String>();
-		comboAPIs.setModel(new DefaultComboBoxModel<String>(new String[] {"/hello", "/test"}));
+		comboAPIs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String selItem = (String)comboAPIs.getSelectedItem();
+				if("/sync.push".equals(selItem)) {
+					
+				}
+			}
+		});
+		comboAPIs.setModel(new DefaultComboBoxModel(new String[] {"/sync.push", "/hello", "/test"}));
 		comboAPIs.setBounds(358, 58, 298, 27);
 		panel_2.add(comboAPIs);
 		
 		apiPrefix = new JTextField();
-		apiPrefix.setText("/app");
+		apiPrefix.setText("/gpapp");
 		apiPrefix.setBounds(108, 57, 225, 26);
 		panel_2.add(apiPrefix);
 		apiPrefix.setColumns(10);
@@ -223,27 +232,6 @@ public class SyncTestMain {
 		splitPane.setDividerSize(6);
 		panel.add(splitPane, BorderLayout.CENTER);
 		
-		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane_1.setAlignmentY(0.0f);
-		tabbedPane_1.setAlignmentX(0.0f);
-		tabbedPane_1.setBorder(new EmptyBorder(0, -5, -5, 0));
-		splitPane.setRightComponent(tabbedPane_1);
-		
-		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBorder(null);
-		tabbedPane_1.addTab("Send", null, scrollPane_2, null);
-		
-		sendArea = new JTextArea();
-		sendArea.setText("{\"name\":\"Test Client\"}");
-		scrollPane_2.setViewportView(sendArea);
-		
-		JScrollPane sendPane = new JScrollPane();
-		sendPane.setBorder(null);
-		tabbedPane_1.addTab("Receive", null, sendPane, null);
-		
-		receiveArea = new JTextArea();
-		sendPane.setViewportView(receiveArea);
-		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new EmptyBorder(0, 10, 10, 5));
 		splitPane.setLeftComponent(panel_3);
@@ -267,7 +255,26 @@ public class SyncTestMain {
 			}
 		});
 		panel_3.add(btnNewButton_2, BorderLayout.SOUTH);
-		splitPane.setDividerLocation(250);
+		
+		JSplitPane splitPane_1 = new JSplitPane();
+		splitPane_1.setResizeWeight(0.5);
+		splitPane.setRightComponent(splitPane_1);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBorder(null);
+		splitPane_1.setLeftComponent(scrollPane_1);
+		
+		sendArea = new JTextArea();
+		scrollPane_1.setViewportView(sendArea);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBorder(null);
+		splitPane_1.setRightComponent(scrollPane_2);
+		
+		receiveArea = new JTextArea();
+		scrollPane_2.setViewportView(receiveArea);
+		splitPane_1.setDividerLocation(250);
+		splitPane.setDividerLocation(350);
 		
 		JPanel panel_1 = new JPanel();
 		tabbedPane.addTab("New tab", null, panel_1, null);
