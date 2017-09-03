@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -21,11 +22,12 @@ public class SyncTestSupport {
 	
 	static Log log = LogFactory.getLog(SyncTestSupport.class);
 	
-	SyncTestMain main = null;
+	SyncTestMainGui main = null;
 	
 	SyncStompClient stompClient = null;
 	
-	public SyncTestSupport(SyncTestMain main) {
+	
+	public SyncTestSupport(SyncTestMainGui main) {
 		this.main = main;
 	}
 	
@@ -69,7 +71,13 @@ public class SyncTestSupport {
 	
 	public void connect(String login, String passcode, String url) {
 		main.appendLog("Start connect via login/pass ...");
-		stompClient = new SyncStompClient(url);
+		Map<String, StompFrameHandler> handlerMap = new HashMap<String, StompFrameHandler>();
+		DevTestFrameHandler testHandler = new DevTestFrameHandler();
+		testHandler.testMain = this.main;
+		handlerMap.put("/topic/greetings", testHandler);
+		
+		stompClient = new SyncStompClient(url, handlerMap);
+		
 		stompClient.connect(login, passcode);
 		main.appendLog("connect done.");
 	}

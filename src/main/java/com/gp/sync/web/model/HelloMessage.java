@@ -13,6 +13,4 @@ public class HelloMessage {
 	public void setName(String name) {
 		this.name = name;
 	}
-    
-    
 }

@@ -25,7 +25,7 @@ public class SyncHooker extends EventHooker<SyncEventLoad>{
 		
 		SyncEventLoad data = (SyncEventLoad) payload;
 		
-		LOGGER.debug("event node sync: {}", data.getData());
+		LOGGER.debug("event sync: {}", data.getData());
 	}
 
 }

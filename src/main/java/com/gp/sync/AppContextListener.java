@@ -12,6 +12,7 @@ public class AppContextListener implements ApplicationListener<ContextRefreshedE
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 		// ignore
-    		LOGGER.debug("AppContextListener initialized");
+    		if(LOGGER.isDebugEnabled())
+    			LOGGER.debug("AppContextListener ContextRefreshedEvent triggered");
     }
 }
