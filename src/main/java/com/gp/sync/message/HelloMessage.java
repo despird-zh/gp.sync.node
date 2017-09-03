@@ -1,4 +1,4 @@
-package com.gp.sync.web.model;
+package com.gp.sync.message;
 
 public class HelloMessage {
 

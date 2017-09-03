@@ -1,4 +1,4 @@
-package com.gp.sync.node;
+package com.gp.sync;
 
 
 public class SyncNodeEngine {

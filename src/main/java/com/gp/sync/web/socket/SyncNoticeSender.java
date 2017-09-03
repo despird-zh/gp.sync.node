@@ -7,7 +7,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.gp.sync.web.model.Greeting;
+import com.gp.sync.message.Greeting;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;

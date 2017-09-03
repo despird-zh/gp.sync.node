@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gp.sync.web.model.ChatMessage;
-import com.gp.sync.web.model.Greeting;
-import com.gp.sync.web.model.HelloMessage;
+import com.gp.sync.message.ChatMessage;
+import com.gp.sync.message.Greeting;
+import com.gp.sync.message.HelloMessage;
 
 @Controller
 public class DevTestController {

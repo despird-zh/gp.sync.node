@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 
-import com.gp.sync.web.model.Greeting;
+import com.gp.sync.message.Greeting;
 import com.gp.sync.web.socket.SyncClientSessionHandler;
 
 public class DevTestFrameHandler implements StompFrameHandler{
