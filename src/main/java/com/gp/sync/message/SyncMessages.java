@@ -98,7 +98,7 @@ public class SyncMessages {
 	}
 	
 	/**
-	 *  
+	 * wrap the sync push message into byte array
 	 **/
 	public static byte[] wrapPushMessage(SyncPushMessage pushMsg) {
 		
