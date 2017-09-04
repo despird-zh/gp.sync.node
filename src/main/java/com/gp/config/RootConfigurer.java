@@ -14,7 +14,6 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import com.gp.core.AppContextHelper;
 import com.gp.sync.AppContextListener;
-import com.gp.sync.web.socket.SyncNodeSessionRegistry;
 
 @Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE + ServiceConfigurer.SERVICE_PRECEDENCE + 10)
@@ -27,11 +26,6 @@ import com.gp.sync.web.socket.SyncNodeSessionRegistry;
 		"com.gp.sync.svc"
  })
 public class RootConfigurer {
-	
-	@Bean
-    public SyncNodeSessionRegistry webAgentSessionRegistry(){
-        return new SyncNodeSessionRegistry();
-    }
 	
 	/**
 	 * Trigger the AppContext event 
