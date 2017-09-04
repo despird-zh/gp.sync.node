@@ -23,6 +23,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
+import java.awt.Component;
+import javax.swing.JSeparator;
 
 public class SyncTestMainGui {
 
@@ -37,12 +39,18 @@ public class SyncTestMainGui {
 	private JTextField apiPrefix;
 	private JTextField tokenText;
 	SyncTestSupport support;
-	private JTextField txtLocalhost;
-	private JTextField txtPort;
+	private JTextField txtCenterServer;
+	private JTextField txtCenterPort;
 	private JTextArea logText;
 	JTextArea sendArea;
 	JTextArea receiveArea;
 	private JComboBox<String> comboAPIs;
+	private JTextField txtgpapi;
+	private JLabel stateMessageLbl;
+	private JComboBox<String> comboHttpApis;
+	private JTextField txtNodePort;
+	private JTextField txtNodeServer;
+	private JTextField txtNodeToken;
 	/**
 	 * Launch the application.
 	 */
@@ -86,8 +94,8 @@ public class SyncTestMainGui {
 	
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(null);
-		panel_2.setPreferredSize(new Dimension(10, 115));
-		panel_2.setSize(new Dimension(0, 60));
+		panel_2.setPreferredSize(new Dimension(10, 185));
+		panel_2.setSize(new Dimension(0, 100));
 		panel.add(panel_2, BorderLayout.NORTH);
 		panel_2.setLayout(null);
 		
@@ -121,8 +129,8 @@ public class SyncTestMainGui {
 		panel_2.add(passText);
 		passText.setColumns(10);
 		
-		JLabel lblNewLabel_3 = new JLabel("APIs");
-		lblNewLabel_3.setBounds(6, 62, 61, 16);
+		JLabel lblNewLabel_3 = new JLabel("WSocket Msgs");
+		lblNewLabel_3.setBounds(6, 62, 105, 16);
 		panel_2.add(lblNewLabel_3);
 		
 		comboAPIs = new JComboBox<String>();
@@ -147,8 +155,8 @@ public class SyncTestMainGui {
 		JButton btnNewButton = new JButton("login");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String url = "http://" + txtLocalhost.getText() + ":" + txtPort.getText() + "/authenticate.do";
-				support.login(loginText.getText(), passText.getText(), url);
+				String url = "http://" + txtCenterServer.getText() + ":" + txtCenterPort.getText() + "/authenticate";
+				support.loginCenter(loginText.getText(), passText.getText(), url);
 			}
 		});
 		btnNewButton.setBounds(668, 29, 96, 29);
@@ -158,7 +166,7 @@ public class SyncTestMainGui {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!support.isReady()) {
-					appendLog("not ready please connect first");
+					setMessage("not ready please connect first");
 					return;
 				}
 				String url = apiPrefix.getText() + comboAPIs.getModel().getElementAt(comboAPIs.getSelectedIndex());
@@ -184,27 +192,27 @@ public class SyncTestMainGui {
 		lblNewLabel_6.setBounds(333, 62, 24, 16);
 		panel_2.add(lblNewLabel_6);
 		
-		txtLocalhost = new JTextField();
-		txtLocalhost.setText("localhost");
-		txtLocalhost.setBounds(109, 1, 149, 26);
-		panel_2.add(txtLocalhost);
-		txtLocalhost.setColumns(10);
+		txtCenterServer = new JTextField();
+		txtCenterServer.setText("localhost");
+		txtCenterServer.setBounds(109, 1, 149, 26);
+		panel_2.add(txtCenterServer);
+		txtCenterServer.setColumns(10);
 		
 		JLabel label = new JLabel(":");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setBounds(259, 6, 15, 16);
 		panel_2.add(label);
 		
-		txtPort = new JTextField();
-		txtPort.setText("8080");
-		txtPort.setBounds(281, 1, 79, 26);
-		panel_2.add(txtPort);
-		txtPort.setColumns(10);
+		txtCenterPort = new JTextField();
+		txtCenterPort.setText("8080");
+		txtCenterPort.setBounds(281, 1, 79, 26);
+		panel_2.add(txtCenterPort);
+		txtCenterPort.setColumns(10);
 		
 		JButton btnConnect = new JButton("connect");
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String url = "ws://" + txtLocalhost.getText() + ":" + txtPort.getText() + endpointText.getText();
+				String url = "ws://" + txtCenterServer.getText() + ":" + txtCenterPort.getText() + endpointText.getText();
 				String token = tokenText.getText();
 				if(StringUtils.isNotBlank(token)) {
 					support.connect(token, url);
@@ -228,6 +236,87 @@ public class SyncTestMainGui {
 		btnDisconn.setBounds(776, 1, 100, 29);
 		panel_2.add(btnDisconn);
 		
+		JLabel lblHttpApis = new JLabel("Apis       http://");
+		lblHttpApis.setBounds(6, 130, 105, 16);
+		panel_2.add(lblHttpApis);
+		
+		txtgpapi = new JTextField();
+		txtgpapi.setText("/gpapi");
+		txtgpapi.setColumns(10);
+		txtgpapi.setBounds(385, 125, 74, 26);
+		panel_2.add(txtgpapi);
+		
+		JLabel label_1 = new JLabel("+");
+		label_1.setHorizontalAlignment(SwingConstants.CENTER);
+		label_1.setBounds(471, 130, 24, 16);
+		panel_2.add(label_1);
+		
+		comboHttpApis = new JComboBox<String>();
+		comboHttpApis.setModel(new DefaultComboBoxModel(new String[] {"", "/sync-push"}));
+		comboHttpApis.setBounds(494, 126, 162, 27);
+		panel_2.add(comboHttpApis);
+		
+		JButton button = new JButton("send");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if("".equals(tokenText.getText())) {
+					setMessage("Please login the server firstly!");
+					return;
+				}
+				if("".equals((String)comboHttpApis.getSelectedItem())) {
+					setMessage("Please select a http api!");
+					return;
+				}else {
+					String token = tokenText.getText();
+					String pushData = syncTests.getTestData("/sync.push");
+					String url = "http://" + txtNodeServer.getText() + ":" + txtNodePort.getText() + txtgpapi.getText() + (String)comboHttpApis.getSelectedItem();
+					support.sendNodeData(url, token, pushData);
+				}
+			}
+		});
+		button.setBounds(780, 125, 96, 29);
+		panel_2.add(button);
+		
+		txtNodePort = new JTextField();
+		txtNodePort.setText("8081");
+		txtNodePort.setColumns(10);
+		txtNodePort.setBounds(281, 125, 79, 26);
+		panel_2.add(txtNodePort);
+		
+		JLabel label_2 = new JLabel(":");
+		label_2.setHorizontalAlignment(SwingConstants.CENTER);
+		label_2.setBounds(259, 130, 15, 16);
+		panel_2.add(label_2);
+		
+		txtNodeServer = new JTextField();
+		txtNodeServer.setText("localhost");
+		txtNodeServer.setColumns(10);
+		txtNodeServer.setBounds(108, 125, 149, 26);
+		panel_2.add(txtNodeServer);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(16, 111, 991, 12);
+		panel_2.add(separator);
+		
+		JButton nodeLogin = new JButton("login");
+		nodeLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String url = "http://" + txtNodeServer.getText() + ":" + txtNodePort.getText() + "/authenticate";
+				support.loginNode(loginText.getText(), passText.getText(), url);
+			}
+		});
+		nodeLogin.setBounds(668, 125, 96, 29);
+		panel_2.add(nodeLogin);
+		
+		JLabel label_3 = new JLabel("Token");
+		label_3.setBounds(6, 158, 61, 16);
+		panel_2.add(label_3);
+		
+		txtNodeToken = new JTextField();
+		txtNodeToken.setColumns(10);
+		txtNodeToken.setBounds(108, 153, 768, 26);
+		panel_2.add(txtNodeToken);
+		
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setBorder(null);
 		splitPane.setDividerSize(6);
@@ -238,7 +327,7 @@ public class SyncTestMainGui {
 		splitPane.setLeftComponent(panel_3);
 		panel_3.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblNewLabel_4 = new JLabel("Oper Log");
+		JLabel lblNewLabel_4 = new JLabel("Operation Log");
 		lblNewLabel_4.setBorder(new EmptyBorder(5, 10, 5, 5));
 		panel_3.add(lblNewLabel_4, BorderLayout.NORTH);
 		
@@ -259,6 +348,7 @@ public class SyncTestMainGui {
 		panel_3.add(btnNewButton_2, BorderLayout.SOUTH);
 		
 		JSplitPane splitPane_1 = new JSplitPane();
+		splitPane_1.setBorder(null);
 		splitPane_1.setResizeWeight(0.5);
 		splitPane.setRightComponent(splitPane_1);
 		
@@ -278,7 +368,19 @@ public class SyncTestMainGui {
 		receiveArea.setLineWrap(true);
 		scrollPane_2.setViewportView(receiveArea);
 		splitPane_1.setDividerLocation(350);
-		splitPane.setDividerLocation(300);
+		splitPane.setDividerLocation(250);
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBorder(new EmptyBorder(1, 0, 0, 0));
+		panel_4.setPreferredSize(new Dimension(10, 30));
+		panel.add(panel_4, BorderLayout.SOUTH);
+		panel_4.setLayout(new BorderLayout(0, 0));
+		
+		stateMessageLbl = new JLabel("");
+		panel_4.add(stateMessageLbl);
+		
+		JLabel lblNewLabel_8 = new JLabel("  Message: ");
+		panel_4.add(lblNewLabel_8, BorderLayout.WEST);
 		
 		JPanel panel_1 = new JPanel();
 		tabbedPane.addTab("Tool Info", null, panel_1, null);
@@ -291,8 +393,12 @@ public class SyncTestMainGui {
 		this.logText.setText("");
 	}
 	
-	public void setToken(String token) {
+	public void setCenterToken(String token) {
 		this.tokenText.setText(token);
+	}
+	
+	public void setNodeToken(String token) {
+		this.txtNodeToken.setText(token);
 	}
 	
 	public void appendLog(String msg) {
@@ -317,5 +423,9 @@ public class SyncTestMainGui {
 	
 	public void setResult(String result) {
 		this.receiveArea.setText(result);
+	}
+	
+	public void setMessage(String message) {
+		this.stateMessageLbl.setText(message);
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gp.sync.message.SyncPullMessage;
+import com.gp.sync.message.SyncPushMessage;
 import com.gp.web.BaseController;
 import com.gp.web.servlet.ServiceTokenFilter;
 
@@ -17,21 +18,21 @@ import com.gp.web.servlet.ServiceTokenFilter;
  **/
 @Controller
 @RequestMapping(ServiceTokenFilter.FILTER_PREFIX)
-public class SyncPullController extends BaseController{
+public class SyncPushController extends BaseController{
 
-	static Logger LOGGER = LoggerFactory.getLogger(SyncPullController.class);
+	static Logger LOGGER = LoggerFactory.getLogger(SyncPushController.class);
 	
 	@RequestMapping(
-		    value = "sync-pull.do", 
+		    value = "sync-push", 
 		    method = RequestMethod.POST,
 		    consumes = {"text/plain", "application/*"})
-	public ModelAndView doSyncPull(@RequestBody(required = false) String payload) throws Exception {
+	public ModelAndView doSyncPush(@RequestBody(required = false) String payload) throws Exception {
 		
 		ModelAndView rtv= super.getJsonModelView();
 		
-		SyncPullMessage message = super.readRequestBody(payload, SyncPullMessage.class);
+		SyncPushMessage pushMessage = super.readRequestBody(payload, SyncPushMessage.class);
 		
-		LOGGER.debug("request pulling message: {}" , message);
+		LOGGER.debug("request push message: {}" , pushMessage);
 		
 		return rtv;
 	}

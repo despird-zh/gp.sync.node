@@ -31,6 +31,8 @@ public class SyncTestSupport {
 	
 	SyncCenterClient stompClient = null;
 	
+	ApiRestClient restClient = new ApiRestClient();
+	
 	SyncHandlerHooker handlerHooker = new SyncHandlerHooker() {
 
 		@Override
@@ -53,12 +55,11 @@ public class SyncTestSupport {
 		this.main = main;
 	}
 	
-	public void login(String login, String passcode, String url){
+	public void loginCenter(String login, String passcode, String url){
 	
-		main.appendLog("Start Login ...");
+		main.appendLog("Start Center Login ...");
     		RestTemplate restTemplate = new RestTemplate();
     		
-    		String uri = "http://localhost:8080/gpapi/authenticate.do";
     		HttpHeaders headers = new HttpHeaders();
     	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
     	    Map<String,String> param = new HashMap<String,String>();
@@ -72,17 +73,48 @@ public class SyncTestSupport {
     	    
 	    	    HttpEntity<String> entity = new HttpEntity<String>(entityBody, headers);
 	    	    
-	    		ResponseEntity<String> result = restTemplate.exchange(uri, 
+	    		ResponseEntity<String> result = restTemplate.exchange(url, 
 	    				HttpMethod.POST, 
 	    				entity, String.class);
 			
 	    		Map<String, Object> map = BaseController.JACKSON_MAPPER.readValue(result.getBody(), new TypeReference<Map<String, Object>>(){});
 	    		String token = (String)map.get("data");
-	    		main.setToken(token);
+	    		main.setCenterToken(token);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		main.appendLog("Login Done.");
+		main.appendLog("Login Center Done.");
+	}
+	
+	public void loginNode(String login, String passcode, String url){
+		
+		main.appendLog("Start Node Login ...");
+    		RestTemplate restTemplate = new RestTemplate();
+    		
+    		HttpHeaders headers = new HttpHeaders();
+    	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+    	    Map<String,String> param = new HashMap<String,String>();
+    	    param.put("principal", login);
+    	    param.put("credential", passcode);
+    	    param.put("audience", "j-client");
+    	    
+    	    String entityBody = null;
+		try {
+			entityBody = BaseController.JACKSON_MAPPER.writeValueAsString(param);
+    	    
+	    	    HttpEntity<String> entity = new HttpEntity<String>(entityBody, headers);
+	    	    
+	    		ResponseEntity<String> result = restTemplate.exchange(url, 
+	    				HttpMethod.POST, 
+	    				entity, String.class);
+			
+	    		Map<String, Object> map = BaseController.JACKSON_MAPPER.readValue(result.getBody(), new TypeReference<Map<String, Object>>(){});
+	    		String token = (String)map.get("data");
+	    		main.setNodeToken(token);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		main.appendLog("Login Node Done.");
 	}
 	
 	public void send(String url, String message, String token) {
@@ -120,5 +152,15 @@ public class SyncTestSupport {
 	
 	public boolean isReady() {
 		return stompClient != null && stompClient.isReady();
+	}
+	
+	public void sendNodeData(String url, String token, String postData) {
+		
+		try {
+			restClient.callHttpApi(url, token, postData);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
