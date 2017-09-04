@@ -35,7 +35,6 @@ public class SyncMessages {
 		if(LOGGER.isDebugEnabled())
 			MESSAGE_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
 		
-		//withSyncTypeModule(MESSAGE_MAPPER);
 	}
 	
 	/**
