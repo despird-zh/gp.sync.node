@@ -98,6 +98,21 @@ public class SyncMessages {
 	}
 	
 	/**
+	 *  
+	 **/
+	public static byte[] wrapPushMessage(SyncPushMessage pushMsg) {
+		
+		if(null == pushMsg) return new byte[0];
+		try {
+			return MESSAGE_MAPPER.writeValueAsBytes(pushMsg);
+		} catch (IOException e) {
+			LOGGER.debug("Fail to wrap the PushMessage into byte[]", e);
+		}
+		
+		return new byte[0];
+	}
+	
+	/**
 	 * parse the notify message 
 	 **/
 	public static SyncNotifyMessage parseNotifyMessage(Optional<String> optJson) {

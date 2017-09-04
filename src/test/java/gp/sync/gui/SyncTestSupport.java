@@ -15,7 +15,7 @@ import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.gp.sync.web.socket.SyncStompClient;
+import com.gp.sync.web.socket.SyncCenterClient;
 import com.gp.web.BaseController;
 
 public class SyncTestSupport {
@@ -24,7 +24,7 @@ public class SyncTestSupport {
 	
 	SyncTestMainGui main = null;
 	
-	SyncStompClient stompClient = null;
+	SyncCenterClient stompClient = null;
 	
 	
 	public SyncTestSupport(SyncTestMainGui main) {
@@ -65,7 +65,7 @@ public class SyncTestSupport {
 	
 	public void send(String url, String message, String token) {
 		main.appendLog("Start send ...");
-		stompClient.send(url, token, message);
+		stompClient.send(url,  message);
 		main.appendLog("send done.");
 	}
 	
@@ -76,7 +76,7 @@ public class SyncTestSupport {
 		testHandler.testMain = this.main;
 		handlerMap.put("/topic/greetings", testHandler);
 		
-		stompClient = new SyncStompClient(url, handlerMap);
+		stompClient = new SyncCenterClient(url, handlerMap);
 		
 		stompClient.connect(login, passcode);
 		main.appendLog("connect done.");
@@ -84,7 +84,7 @@ public class SyncTestSupport {
 	
 	public void connect(String token, String url) {
 		main.appendLog("Start connect via token ...");
-		stompClient = new SyncStompClient(url);
+		stompClient = new SyncCenterClient(url);
 		stompClient.connect(token);
 		main.appendLog("connect done.");
 	}
