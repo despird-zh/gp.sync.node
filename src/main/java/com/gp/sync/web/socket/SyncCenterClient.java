@@ -9,7 +9,6 @@ import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
-import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.util.concurrent.FailureCallback;
 import org.springframework.util.concurrent.ListenableFuture;
@@ -42,9 +41,7 @@ public class SyncCenterClient {
 	private Map<String, StompFrameHandler> handlerMap = null;
 	// stomp session handler
 	private StompSessionHandler sessionHandler = null;
-	// task scheduler
-	private TaskScheduler taskScheduler = new ConcurrentTaskScheduler();
-	
+
 	/**
 	 * The default sync center client constructor 
 	 **/
@@ -52,7 +49,7 @@ public class SyncCenterClient {
 		WebSocketClient webSocketClient = new StandardWebSocketClient();
         stompClient = new WebSocketStompClient(webSocketClient);
         stompClient.setMessageConverter( new MappingJackson2MessageConverter() );
-        stompClient.setTaskScheduler(taskScheduler);
+        stompClient.setTaskScheduler(new ConcurrentTaskScheduler());
 	}
 	
 	/**
@@ -145,8 +142,10 @@ public class SyncCenterClient {
 	public void send(String messageMappingUrl, String msg) {
 		
 		StompHeaders headers = new StompHeaders();
-		headers.setDestination(url);
-		
+		headers.setDestination(messageMappingUrl);
+		if(LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Sending message to {} : {}", messageMappingUrl, msg);
+		}
 		stompSession.send(headers, msg.getBytes());
 	}
 	
@@ -156,12 +155,15 @@ public class SyncCenterClient {
 	 * @param messageMappingUrl the message destination, eg. the message mapping path
 	 * @param pushMsg the message {@link SyncPushMessage}  
 	 **/
-	public void send(String url, SyncPushMessage pushMsg) {
+	public void send(String messageMappingUrl, SyncPushMessage pushMsg) {
 		
 		StompHeaders headers = new StompHeaders();
-		headers.setDestination(url);
+		headers.setDestination(messageMappingUrl);
 		
 		byte[] msg = SyncMessages.wrapPushMessage(pushMsg);
+		if(LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Sending message to {} : {}", messageMappingUrl, new String(msg));
+		}
 		stompSession.send(headers, msg);
 	}
 
