@@ -155,7 +155,7 @@ public class SyncTestMainGui {
 		JButton btnNewButton = new JButton("login");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String url = "http://" + txtCenterServer.getText() + ":" + txtCenterPort.getText() + "/authenticate";
+				String url = "http://" + txtCenterServer.getText() + ":" + txtCenterPort.getText() + txtgpapi.getText() + "/authenticate.do";
 				support.loginCenter(loginText.getText(), passText.getText(), url);
 			}
 		});
@@ -301,7 +301,7 @@ public class SyncTestMainGui {
 		JButton nodeLogin = new JButton("login");
 		nodeLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String url = "http://" + txtNodeServer.getText() + ":" + txtNodePort.getText() + "/authenticate";
+				String url = "http://" + txtNodeServer.getText() + ":" + txtNodePort.getText() + txtgpapi.getText() + "/authenticate";
 				support.loginNode(loginText.getText(), passText.getText(), url);
 			}
 		});
