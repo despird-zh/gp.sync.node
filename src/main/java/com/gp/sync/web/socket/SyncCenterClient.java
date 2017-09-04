@@ -40,7 +40,7 @@ public class SyncCenterClient {
 	/**
 	 * The default sync center client constructor 
 	 **/
-	private SyncCenterClient() {
+	private void initial() {
 		WebSocketClient webSocketClient = new StandardWebSocketClient();
         stompClient = new WebSocketStompClient(webSocketClient);
         stompClient.setMessageConverter( new MappingJackson2MessageConverter() );
@@ -51,9 +51,9 @@ public class SyncCenterClient {
 	 * constructor with URL parameter 
 	 **/
 	public SyncCenterClient(String url) {
-		this();
+
 		this.url = url;
-        sessionHandler = new SyncClientSessionHandler(null, null);
+        sessionHandler = new SyncCenterSessionHandler(null, null);
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class SyncCenterClient {
 	 * @param handlerMap the map of url path and responsive frame handler.
 	 **/
 	public SyncCenterClient(String url,  StompSessionHandler sessionHandler) {
-		this();
+
 		this.url = url;
         this.sessionHandler = sessionHandler;
 	}
@@ -75,6 +75,8 @@ public class SyncCenterClient {
 	 * @param passcode the password , header key: passcode
 	 **/
 	public void connect(String login, String passcode) {
+		
+		initial();
 		
         WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
         headers.add(SyncConstants.WS_HEADER_PASSWORD, passcode);
@@ -107,6 +109,8 @@ public class SyncCenterClient {
 	 **/
 	public void connect(String token) {
 				
+		initial();
+		
         WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
         headers.add(SyncConstants.WS_HEADER_TOKEN, token);
         

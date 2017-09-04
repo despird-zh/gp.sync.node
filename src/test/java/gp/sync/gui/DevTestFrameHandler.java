@@ -8,12 +8,12 @@ import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 
 import com.gp.sync.message.Greeting;
-import com.gp.sync.web.socket.SyncClientSessionHandler;
+import com.gp.sync.web.socket.SyncCenterSessionHandler;
 import com.gp.sync.web.socket.SyncHandlerHooker;
 
 public class DevTestFrameHandler implements StompFrameHandler{
 
-	static Logger log = LoggerFactory.getLogger(SyncClientSessionHandler.class);
+	static Logger log = LoggerFactory.getLogger(SyncCenterSessionHandler.class);
 	
 	private SyncHandlerHooker handlerHooker = null;
 	

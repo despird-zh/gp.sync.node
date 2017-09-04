@@ -14,14 +14,18 @@ import com.gp.sync.message.SyncNotifyMessage;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-public class SyncClientSessionHandler extends StompSessionHandlerAdapter {
+/**
+ * 
+ * 
+ **/
+public class SyncCenterSessionHandler extends StompSessionHandlerAdapter {
 	
-	static Logger log = LoggerFactory.getLogger(SyncClientSessionHandler.class);
+	static Logger log = LoggerFactory.getLogger(SyncCenterSessionHandler.class);
 	
 	private Map<String, StompFrameHandler> handlerMap = null;
 	private SyncHandlerHooker handlerHooker = null;
 	
-	public SyncClientSessionHandler(Map<String, StompFrameHandler> handlerMap, SyncHandlerHooker handlerHooker) {
+	public SyncCenterSessionHandler(Map<String, StompFrameHandler> handlerMap, SyncHandlerHooker handlerHooker) {
 		this.handlerMap = handlerMap;
 		this.handlerHooker = handlerHooker;
 	}
@@ -61,11 +65,16 @@ public class SyncClientSessionHandler extends StompSessionHandlerAdapter {
     public void handleFrame(StompHeaders headers, Object payload) {
     	
     		SyncNotifyMessage message =	(SyncNotifyMessage) payload;
-        log.info("Received: {} - {}", message.getType(), message.getTraceCode());
-        log.debug("Received: {}", message.getPayload());
-        
-        if(handlerHooker != null) {
-        		this.handlerHooker.onHandleFrame(headers, payload);
-        }
+    		if(null != message) {
+	        log.info("Received: {} - {}", message.getType(), message.getTraceCode());
+	        log.debug("Received: {}", message.getPayload());
+	        if(handlerHooker != null) {
+	        		this.handlerHooker.onHandleFrame(headers, payload);
+	        }
+    		}else {
+    			log.debug("Message payload is null.");
+    			log.debug("Message header : {}", headers.toSingleValueMap());
+    		}
+
     }
 }

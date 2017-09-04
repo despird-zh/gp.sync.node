@@ -19,7 +19,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.gp.sync.message.Greeting;
 import com.gp.sync.message.SyncNotifyMessage;
 import com.gp.sync.web.socket.SyncCenterClient;
-import com.gp.sync.web.socket.SyncClientSessionHandler;
+import com.gp.sync.web.socket.SyncCenterSessionHandler;
 import com.gp.sync.web.socket.SyncHandlerHooker;
 import com.gp.web.BaseController;
 
@@ -97,7 +97,7 @@ public class SyncTestSupport {
 		DevTestFrameHandler testHandler = new DevTestFrameHandler(this.handlerHooker);
 		
 		handlerMap.put("/topic/greetings", testHandler);
-		SyncClientSessionHandler sessHandler = new SyncClientSessionHandler(handlerMap, this.handlerHooker);
+		SyncCenterSessionHandler sessHandler = new SyncCenterSessionHandler(handlerMap, this.handlerHooker);
 		
 		stompClient = new SyncCenterClient(url, sessHandler);
 		
