@@ -37,8 +37,6 @@ public class SyncCenterClient {
 	private WebSocketStompClient stompClient = null;
 	// stomp session
 	private StompSession stompSession = null;
-	// extra frame handler
-	private Map<String, StompFrameHandler> handlerMap = null;
 	// stomp session handler
 	private StompSessionHandler sessionHandler = null;
 
@@ -58,7 +56,7 @@ public class SyncCenterClient {
 	public SyncCenterClient(String url) {
 		this();
 		this.url = url;
-        sessionHandler = new SyncClientSessionHandler(this.handlerMap);
+        sessionHandler = new SyncClientSessionHandler(null, null);
 	}
 	
 	/**
@@ -66,10 +64,10 @@ public class SyncCenterClient {
 	 * @param url the connection url
 	 * @param handlerMap the map of url path and responsive frame handler.
 	 **/
-	public SyncCenterClient(String url, Map<String, StompFrameHandler> handlerMap) {
+	public SyncCenterClient(String url,  StompSessionHandler sessionHandler) {
 		this();
 		this.url = url;
-        sessionHandler = new SyncClientSessionHandler(this.handlerMap);
+        this.sessionHandler = sessionHandler;
 	}
 	
 	/**

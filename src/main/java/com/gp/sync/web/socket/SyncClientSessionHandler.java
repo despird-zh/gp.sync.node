@@ -19,9 +19,11 @@ public class SyncClientSessionHandler extends StompSessionHandlerAdapter {
 	static Logger log = LoggerFactory.getLogger(SyncClientSessionHandler.class);
 	
 	private Map<String, StompFrameHandler> handlerMap = null;
+	private SyncHandlerHooker handlerHooker = null;
 	
-	public SyncClientSessionHandler(Map<String, StompFrameHandler> handlerMap) {
+	public SyncClientSessionHandler(Map<String, StompFrameHandler> handlerMap, SyncHandlerHooker handlerHooker) {
 		this.handlerMap = handlerMap;
+		this.handlerHooker = handlerHooker;
 	}
 	
     @Override
@@ -61,5 +63,9 @@ public class SyncClientSessionHandler extends StompSessionHandlerAdapter {
     		SyncNotifyMessage message =	(SyncNotifyMessage) payload;
         log.info("Received: {} - {}", message.getType(), message.getTraceCode());
         log.debug("Received: {}", message.getPayload());
+        
+        if(handlerHooker != null) {
+        		this.handlerHooker.onHandleFrame(headers, payload);
+        }
     }
 }

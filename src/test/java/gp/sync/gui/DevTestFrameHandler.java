@@ -9,12 +9,17 @@ import org.springframework.messaging.simp.stomp.StompHeaders;
 
 import com.gp.sync.message.Greeting;
 import com.gp.sync.web.socket.SyncClientSessionHandler;
+import com.gp.sync.web.socket.SyncHandlerHooker;
 
 public class DevTestFrameHandler implements StompFrameHandler{
 
 	static Logger log = LoggerFactory.getLogger(SyncClientSessionHandler.class);
 	
-	SyncTestMainGui testMain = null;
+	private SyncHandlerHooker handlerHooker = null;
+	
+	public DevTestFrameHandler(SyncHandlerHooker handlerHooker) {
+		this.handlerHooker = handlerHooker;
+	}
 	
 	@Override
 	public Type getPayloadType(StompHeaders headers) {
@@ -25,8 +30,8 @@ public class DevTestFrameHandler implements StompFrameHandler{
 	public void handleFrame(StompHeaders headers, Object payload) {
 		Greeting message = (Greeting) payload;
 		log.info("Received: {} ", message.getContent());
-		if( null != testMain) {
-			testMain.appendReceived(message.getContent());
+		if(handlerHooker != null) {
+     		this.handlerHooker.onHandleFrame(headers, payload);
 		}
 	}
 

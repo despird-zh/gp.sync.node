@@ -12,10 +12,15 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
+import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.gp.sync.message.Greeting;
+import com.gp.sync.message.SyncNotifyMessage;
 import com.gp.sync.web.socket.SyncCenterClient;
+import com.gp.sync.web.socket.SyncClientSessionHandler;
+import com.gp.sync.web.socket.SyncHandlerHooker;
 import com.gp.web.BaseController;
 
 public class SyncTestSupport {
@@ -26,6 +31,23 @@ public class SyncTestSupport {
 	
 	SyncCenterClient stompClient = null;
 	
+	SyncHandlerHooker handlerHooker = new SyncHandlerHooker() {
+
+		@Override
+		public void onHandleFrame(StompHeaders headers, Object payload) {
+			if(payload instanceof SyncNotifyMessage)	{
+				SyncNotifyMessage data = (SyncNotifyMessage) payload;
+				main.appendReceived( (String) data.getPayload() );
+			}
+			else if(payload instanceof Greeting) {
+				Greeting data = (Greeting) payload;
+				main.appendReceived( (String) data.getContent() );
+			}else {
+				main.appendReceived(payload.toString());
+			}
+		}
+		
+	};
 	
 	public SyncTestSupport(SyncTestMainGui main) {
 		this.main = main;
@@ -72,11 +94,12 @@ public class SyncTestSupport {
 	public void connect(String login, String passcode, String url) {
 		main.appendLog("Start connect via login/pass ...");
 		Map<String, StompFrameHandler> handlerMap = new HashMap<String, StompFrameHandler>();
-		DevTestFrameHandler testHandler = new DevTestFrameHandler();
-		testHandler.testMain = this.main;
-		handlerMap.put("/topic/greetings", testHandler);
+		DevTestFrameHandler testHandler = new DevTestFrameHandler(this.handlerHooker);
 		
-		stompClient = new SyncCenterClient(url, handlerMap);
+		handlerMap.put("/topic/greetings", testHandler);
+		SyncClientSessionHandler sessHandler = new SyncClientSessionHandler(handlerMap, this.handlerHooker);
+		
+		stompClient = new SyncCenterClient(url, sessHandler);
 		
 		stompClient.connect(login, passcode);
 		main.appendLog("connect done.");
