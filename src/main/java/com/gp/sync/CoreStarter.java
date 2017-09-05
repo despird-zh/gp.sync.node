@@ -39,9 +39,10 @@ public class CoreStarter implements ServletContextListener{
 	public void contextInitialized(ServletContextEvent arg0) {
 		LOGGER.debug("ContextInitFinishListener:CoreStarter starting");
 		try {
-			/** register the core event hooker, it handle the audit operation to persist it into database
+			/** 
+			 * register the core event hooker, it handle the audit operation to persist it into database
 			 * if you want to change the default process, you can extends it to override.
-			 */
+			 **/
 			CoreHandler coreHandler = new CoreHandler();
 			EventDispatcher.getInstance().regEventHandler(coreHandler);
 			// initialize the engine

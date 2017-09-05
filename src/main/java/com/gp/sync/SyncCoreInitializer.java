@@ -19,10 +19,10 @@ public class SyncCoreInitializer extends CoreInitializer{
 
 			@Override
 			public void initial() {
-				
+				// add sync hooker to disruptor engine
 				SyncHooker syncHooker = new SyncHooker();
 				EventDispatcher.getInstance().regEventHooker( syncHooker );
-				// Register the IdKey enum to IdKeys helper class.
+				// Register the IdKey enums to IdKeys helper class.
 				IdKeys.addIdentifier(SyncIdKey.values());
 				
 				sendFeedback(false, "SyncLifecycleHooker initial done");
