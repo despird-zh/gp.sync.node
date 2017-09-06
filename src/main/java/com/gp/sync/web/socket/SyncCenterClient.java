@@ -171,6 +171,7 @@ public class SyncCenterClient {
 	 **/
 	public void disconnect() {
 		
+		if(!isReady()) return;
 		this.stompSession.disconnect();
 		this.stompClient.stop();
 		this.stompSession = null;
