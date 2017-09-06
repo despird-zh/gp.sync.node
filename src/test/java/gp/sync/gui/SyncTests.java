@@ -33,7 +33,7 @@ public class SyncTests {
 		
 		SyncPushMessage push = new SyncPushMessage();
 		push.setNode("N0010");
-		InfoId<Long> wid = IdKeys.getInfoId(IdKey.WORKGROUP, 31l);
+		InfoId<Long> wid = IdKeys.getInfoId(IdKey.GP_WORKGROUPS, 31l);
 		String trcCd = IdKeys.getTraceCode("N0010", wid);
 		push.setTraceCode(trcCd);
 		push.setType(new SyncType("cmd-wgrp-update"));

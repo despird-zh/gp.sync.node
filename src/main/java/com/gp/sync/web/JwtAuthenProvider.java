@@ -43,7 +43,7 @@ public class JwtAuthenProvider implements AuthenticationProvider{
 		try{
 			AccessPoint accesspoint = new AccessPoint("sync","blind");
 			JwtPayload jwtPayload = JwtTokenUtils.parsePayload(token);
-			InfoId<Long> tokenId = IdKeys.getInfoId(IdKey.TOKEN, NumberUtils.toLong(jwtPayload.getJwtId()));
+			InfoId<Long> tokenId = IdKeys.getInfoId(IdKey.GP_TOKENS, NumberUtils.toLong(jwtPayload.getJwtId()));
 			TokenInfo tokenInfo = SecurityFacade.findToken(accesspoint, tokenId);
 			// check if the token record exists
 			if(tokenInfo == null){

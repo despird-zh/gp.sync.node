@@ -18,9 +18,7 @@ public class SyncNodeEngine {
 	static Logger LOGGER = LoggerFactory.getLogger(SyncNodeEngine.class);
 	
 	private static SyncNodeEngine instance;
-	
-	
-	
+		
 	public static SyncNodeEngine getInstance() {
 		
 		if( instance == null) {
