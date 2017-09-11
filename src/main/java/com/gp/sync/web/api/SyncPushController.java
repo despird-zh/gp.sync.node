@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gp.sync.message.SyncPullMessage;
 import com.gp.sync.message.SyncPushMessage;
 import com.gp.web.BaseController;
 import com.gp.web.servlet.ServiceTokenFilter;
