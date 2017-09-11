@@ -17,9 +17,9 @@ import com.gp.web.servlet.ServiceTokenFilter;
  **/
 @Controller
 @RequestMapping(ServiceTokenFilter.FILTER_PREFIX)
-public class SyncPushController extends BaseController{
+public class SyncPushAPIController extends BaseController{
 
-	static Logger LOGGER = LoggerFactory.getLogger(SyncPushController.class);
+	static Logger LOGGER = LoggerFactory.getLogger(SyncPushAPIController.class);
 	
 	@RequestMapping(
 		    value = "sync-push", 
