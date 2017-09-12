@@ -31,7 +31,7 @@ public class SyncPushAPIController extends BaseController{
 		
 		SyncPushMessage pushMessage = super.readRequestBody(payload, SyncPushMessage.class);
 		
-		LOGGER.debug("request push message: {}" , pushMessage);
+		LOGGER.debug("request push message: {}" , payload);
 		
 		return rtv;
 	}
