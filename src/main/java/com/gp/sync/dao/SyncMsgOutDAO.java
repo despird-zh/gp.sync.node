@@ -9,19 +9,19 @@ import com.gp.common.IdKeys;
 import com.gp.dao.BaseDAO;
 import com.gp.info.InfoId;
 import com.gp.sync.SyncIdKey;
-import com.gp.sync.dao.info.CenterMsgInfo;
+import com.gp.sync.dao.info.NodeMsgOutInfo;
 
-public interface CenterMsgDAO extends BaseDAO<CenterMsgInfo>{
+public interface SyncMsgOutDAO extends BaseDAO<NodeMsgOutInfo>{
 
-	public static RowMapper<CenterMsgInfo> CMSG_Mapper = new RowMapper<CenterMsgInfo>() {
+	public static RowMapper<NodeMsgOutInfo> MAPPER = new RowMapper<NodeMsgOutInfo>() {
 
 		@Override
-		public CenterMsgInfo mapRow(ResultSet rs, int arg1) throws SQLException {
-			CenterMsgInfo info  = new CenterMsgInfo();
+		public NodeMsgOutInfo mapRow(ResultSet rs, int arg1) throws SQLException {
+			NodeMsgOutInfo info = new NodeMsgOutInfo();
 			
-			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.CENTER_MSG, rs.getLong("msg_id"));
+			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.NODE_MSG_IN,rs.getLong("msg_id"));
 			info.setInfoId(id);
-			info.setReceiveId(rs.getLong("rcv_id"));
+			info.setPushId(rs.getLong("push_id"));
 			info.setEntityCode(rs.getString("entity_code"));
 			info.setNodeCode(rs.getString("node_code"));
 			info.setTraceCode(rs.getString("trace_code"));

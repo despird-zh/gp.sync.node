@@ -11,7 +11,7 @@ import com.gp.info.InfoId;
 import com.gp.sync.SyncIdKey;
 import com.gp.sync.dao.info.NodePullInfo;
 
-public interface NodePullDAO extends BaseDAO<NodePullInfo>{
+public interface SyncPullDAO extends BaseDAO<NodePullInfo>{
 
 	public static RowMapper<NodePullInfo> MAPPER = new RowMapper<NodePullInfo>() {
 

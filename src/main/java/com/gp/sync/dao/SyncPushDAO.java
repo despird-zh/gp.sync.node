@@ -9,26 +9,25 @@ import com.gp.common.IdKeys;
 import com.gp.dao.BaseDAO;
 import com.gp.info.InfoId;
 import com.gp.sync.SyncIdKey;
-import com.gp.sync.dao.info.CenterRcvInfo;
+import com.gp.sync.dao.info.NodePushInfo;
 
-public interface CenterRcvDAO extends BaseDAO<CenterRcvInfo>{
+public interface SyncPushDAO extends BaseDAO<NodePushInfo>{
 
-	public static RowMapper<CenterRcvInfo> MAPPER = new RowMapper<CenterRcvInfo>() {
+	public static RowMapper<NodePushInfo> MAPPER = new RowMapper<NodePushInfo>() {
 
 		@Override
-		public CenterRcvInfo mapRow(ResultSet rs, int arg1) throws SQLException {
+		public NodePushInfo mapRow(ResultSet rs, int arg1) throws SQLException {
 			
-			CenterRcvInfo info = new CenterRcvInfo();
+			NodePushInfo info = new NodePushInfo();
 			
-			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.CENTER_RCV, rs.getLong("rcv_id"));
+			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.NODE_PUSH,rs.getLong("push_id"));
 			info.setInfoId(id);
 			info.setEntityCode(rs.getString("entity_code"));
 			info.setNodeCode(rs.getString("node_code"));
-			info.setReceiveTime(rs.getTimestamp("rcv_time"));
-			info.setState(rs.getString("state"));
-			info.setReceiveData(rs.getString("rcv_data"));
 			info.setStartOwm(rs.getLong("start_owm"));
 			info.setEndOwm(rs.getLong("end_owm"));
+			info.setPushData(rs.getString("push_data"));
+			info.setPushTime(rs.getTimestamp("push_time"));
 			
 			info.setModifier(rs.getString("modifier"));
 			info.setModifyDate(rs.getTimestamp("last_modified"));

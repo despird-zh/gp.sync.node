@@ -11,7 +11,7 @@ import com.gp.info.InfoId;
 import com.gp.sync.SyncIdKey;
 import com.gp.sync.dao.info.NodeMsgInInfo;
 
-public interface NodeMsgInDAO extends BaseDAO<NodeMsgInInfo>{
+public interface SyncMsgInDAO extends BaseDAO<NodeMsgInInfo>{
 
 	public static RowMapper<NodeMsgInInfo> MAPPER = new RowMapper<NodeMsgInInfo>() {
 
