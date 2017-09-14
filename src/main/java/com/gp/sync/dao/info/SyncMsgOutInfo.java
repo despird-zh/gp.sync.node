@@ -2,7 +2,7 @@ package com.gp.sync.dao.info;
 
 import com.gp.info.TraceableInfo;
 
-public class NodeMsgOutInfo extends TraceableInfo<Long>{
+public class SyncMsgOutInfo extends TraceableInfo<Long>{
 
 	private static final long serialVersionUID = 141797892144943311L;
 

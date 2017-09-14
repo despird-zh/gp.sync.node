@@ -21,7 +21,7 @@ import com.gp.dao.impl.DAOSupport;
 import com.gp.info.FlatColLocator;
 import com.gp.info.InfoId;
 import com.gp.sync.dao.SyncMsgInDAO;
-import com.gp.sync.dao.info.NodeMsgInInfo;
+import com.gp.sync.dao.info.SyncMsgInInfo;
 
 @Component
 public class SyncMsgInDAOImpl extends DAOSupport implements SyncMsgInDAO{
@@ -34,7 +34,7 @@ public class SyncMsgInDAOImpl extends DAOSupport implements SyncMsgInDAO{
 	}
 	
 	@Override
-	public int create(NodeMsgInInfo info) {
+	public int create(SyncMsgInInfo info) {
 		StringBuffer SQL = new StringBuffer();
 		SQL.append("insert into gp_node_msg_in (")
 			.append("msg_id, pull_id, entity_code, node_code, ")
@@ -79,7 +79,7 @@ public class SyncMsgInDAOImpl extends DAOSupport implements SyncMsgInDAO{
 	}
 
 	@Override
-	public int update(NodeMsgInInfo info, FilterMode mode, FlatColLocator... filterCols) {
+	public int update(SyncMsgInInfo info, FilterMode mode, FlatColLocator... filterCols) {
 		Set<String> colset = FlatColumns.toColumnSet(filterCols);
 		List<Object> params = new ArrayList<Object>();
 	
@@ -130,7 +130,7 @@ public class SyncMsgInDAOImpl extends DAOSupport implements SyncMsgInDAO{
 	}
 
 	@Override
-	public NodeMsgInInfo query(InfoId<?> id) {
+	public SyncMsgInInfo query(InfoId<?> id) {
 		String SQL = "select * from gp_node_msg_in "
 				+ "where msg_id = ? ";
 		
@@ -142,7 +142,7 @@ public class SyncMsgInDAOImpl extends DAOSupport implements SyncMsgInDAO{
 		if(LOGGER.isDebugEnabled()){			
 			LOGGER.debug("SQL : " + SQL.toString() + " / params : " + ArrayUtils.toString(params));
 		}
-		List<NodeMsgInInfo> ainfo = jtemplate.query(SQL, params, MAPPER);
+		List<SyncMsgInInfo> ainfo = jtemplate.query(SQL, params, MAPPER);
 		
 		return ainfo.size() > 0 ? ainfo.get(0) : null;
 	}

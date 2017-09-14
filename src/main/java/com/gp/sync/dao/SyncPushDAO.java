@@ -9,16 +9,16 @@ import com.gp.common.IdKeys;
 import com.gp.dao.BaseDAO;
 import com.gp.info.InfoId;
 import com.gp.sync.SyncIdKey;
-import com.gp.sync.dao.info.NodePushInfo;
+import com.gp.sync.dao.info.SyncPushInfo;
 
-public interface SyncPushDAO extends BaseDAO<NodePushInfo>{
+public interface SyncPushDAO extends BaseDAO<SyncPushInfo>{
 
-	public static RowMapper<NodePushInfo> MAPPER = new RowMapper<NodePushInfo>() {
+	public static RowMapper<SyncPushInfo> MAPPER = new RowMapper<SyncPushInfo>() {
 
 		@Override
-		public NodePushInfo mapRow(ResultSet rs, int arg1) throws SQLException {
+		public SyncPushInfo mapRow(ResultSet rs, int arg1) throws SQLException {
 			
-			NodePushInfo info = new NodePushInfo();
+			SyncPushInfo info = new SyncPushInfo();
 			
 			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.NODE_PUSH,rs.getLong("push_id"));
 			info.setInfoId(id);

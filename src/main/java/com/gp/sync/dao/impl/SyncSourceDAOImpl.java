@@ -20,7 +20,7 @@ import com.gp.dao.impl.DAOSupport;
 import com.gp.info.FlatColLocator;
 import com.gp.info.InfoId;
 import com.gp.sync.dao.SyncSourceDAO;
-import com.gp.sync.dao.info.NodeSourceInfo;
+import com.gp.sync.dao.info.SyncSourceInfo;
 
 public class SyncSourceDAOImpl extends DAOSupport implements SyncSourceDAO{
 
@@ -38,7 +38,7 @@ public class SyncSourceDAOImpl extends DAOSupport implements SyncSourceDAO{
 	}
 
 	@Override
-	public int create(NodeSourceInfo info) {
+	public int create(SyncSourceInfo info) {
 		StringBuffer SQL = new StringBuffer();
 		SQL.append("insert into gp_node_sources (")
 			.append("node_id, entity_code, node_code, last_push_time,")
@@ -83,7 +83,7 @@ public class SyncSourceDAOImpl extends DAOSupport implements SyncSourceDAO{
 	}
 
 	@Override
-	public int update(NodeSourceInfo info, FilterMode mode, FlatColLocator... filterCols) {
+	public int update(SyncSourceInfo info, FilterMode mode, FlatColLocator... filterCols) {
 		Set<String> colset = FlatColumns.toColumnSet(filterCols);
 		List<Object> params = new ArrayList<Object>();
 	
@@ -130,7 +130,7 @@ public class SyncSourceDAOImpl extends DAOSupport implements SyncSourceDAO{
 	}
 
 	@Override
-	public NodeSourceInfo query(InfoId<?> id) {
+	public SyncSourceInfo query(InfoId<?> id) {
 		String SQL = "select * from gp_node_sources "
 				+ "where node_id = ? ";
 		
@@ -142,7 +142,7 @@ public class SyncSourceDAOImpl extends DAOSupport implements SyncSourceDAO{
 		if(LOGGER.isDebugEnabled()){			
 			LOGGER.debug("SQL : " + SQL.toString() + " / params : " + ArrayUtils.toString(params));
 		}
-		List<NodeSourceInfo> ainfo = jtemplate.query(SQL, params, MAPPER);
+		List<SyncSourceInfo> ainfo = jtemplate.query(SQL, params, MAPPER);
 		
 		return ainfo.size() > 0 ? ainfo.get(0) : null;
 	}

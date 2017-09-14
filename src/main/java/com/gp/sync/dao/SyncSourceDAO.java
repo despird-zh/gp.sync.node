@@ -9,15 +9,15 @@ import com.gp.common.IdKeys;
 import com.gp.dao.BaseDAO;
 import com.gp.info.InfoId;
 import com.gp.sync.SyncIdKey;
-import com.gp.sync.dao.info.NodeSourceInfo;
+import com.gp.sync.dao.info.SyncSourceInfo;
 
-public interface SyncSourceDAO extends BaseDAO<NodeSourceInfo>{
+public interface SyncSourceDAO extends BaseDAO<SyncSourceInfo>{
 
-	public static RowMapper<NodeSourceInfo> MAPPER = new RowMapper<NodeSourceInfo>() {
+	public static RowMapper<SyncSourceInfo> MAPPER = new RowMapper<SyncSourceInfo>() {
 
 		@Override
-		public NodeSourceInfo mapRow(ResultSet rs, int arg1) throws SQLException {
-			NodeSourceInfo info = new NodeSourceInfo();
+		public SyncSourceInfo mapRow(ResultSet rs, int arg1) throws SQLException {
+			SyncSourceInfo info = new SyncSourceInfo();
 			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.NODE_SOURCE,rs.getLong("node_id"));
 			
 			info.setInfoId(id);

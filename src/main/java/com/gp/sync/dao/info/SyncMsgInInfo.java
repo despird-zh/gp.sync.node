@@ -2,11 +2,11 @@ package com.gp.sync.dao.info;
 
 import com.gp.info.TraceableInfo;
 
-public class CenterMsgInfo extends TraceableInfo<Long> {
+public class SyncMsgInInfo extends TraceableInfo<Long>{
 
-	private static final long serialVersionUID = -4161984335214563801L;
+	private static final long serialVersionUID = -5237483219294576035L;
 
-	private Long receiveId;
+	private Long pullId;
 	
 	private String entityCode;
 	
@@ -20,12 +20,12 @@ public class CenterMsgInfo extends TraceableInfo<Long> {
 	
 	private String msgData;
 
-	public Long getReceiveId() {
-		return receiveId;
+	public Long getPullId() {
+		return pullId;
 	}
 
-	public void setReceiveId(Long receiveId) {
-		this.receiveId = receiveId;
+	public void setPullId(Long pullId) {
+		this.pullId = pullId;
 	}
 
 	public String getEntityCode() {
@@ -75,5 +75,5 @@ public class CenterMsgInfo extends TraceableInfo<Long> {
 	public void setMsgData(String msgData) {
 		this.msgData = msgData;
 	}
-	
+
 }

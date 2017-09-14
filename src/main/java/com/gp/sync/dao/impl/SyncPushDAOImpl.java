@@ -20,7 +20,7 @@ import com.gp.dao.impl.DAOSupport;
 import com.gp.info.FlatColLocator;
 import com.gp.info.InfoId;
 import com.gp.sync.dao.SyncPushDAO;
-import com.gp.sync.dao.info.NodePushInfo;
+import com.gp.sync.dao.info.SyncPushInfo;
 
 public class SyncPushDAOImpl extends DAOSupport implements SyncPushDAO{
 
@@ -32,7 +32,7 @@ public class SyncPushDAOImpl extends DAOSupport implements SyncPushDAO{
 	}
 	
 	@Override
-	public int create(NodePushInfo info) {
+	public int create(SyncPushInfo info) {
 		StringBuffer SQL = new StringBuffer();
 		SQL.append("insert into gp_node_push (")
 			.append("push_id, entity_code, node_code, push_time,")
@@ -77,7 +77,7 @@ public class SyncPushDAOImpl extends DAOSupport implements SyncPushDAO{
 	}
 
 	@Override
-	public int update(NodePushInfo info, FilterMode mode, FlatColLocator... filterCols) {
+	public int update(SyncPushInfo info, FilterMode mode, FlatColLocator... filterCols) {
 		Set<String> colset = FlatColumns.toColumnSet(filterCols);
 		List<Object> params = new ArrayList<Object>();
 	
@@ -124,7 +124,7 @@ public class SyncPushDAOImpl extends DAOSupport implements SyncPushDAO{
 	}
 
 	@Override
-	public NodePushInfo query(InfoId<?> id) {
+	public SyncPushInfo query(InfoId<?> id) {
 		String SQL = "select * from gp_node_push "
 				+ "where push_id = ? ";
 		
@@ -136,7 +136,7 @@ public class SyncPushDAOImpl extends DAOSupport implements SyncPushDAO{
 		if(LOGGER.isDebugEnabled()){			
 			LOGGER.debug("SQL : " + SQL.toString() + " / params : " + ArrayUtils.toString(params));
 		}
-		List<NodePushInfo> ainfo = jtemplate.query(SQL, params, MAPPER);
+		List<SyncPushInfo> ainfo = jtemplate.query(SQL, params, MAPPER);
 		
 		return ainfo.size() > 0 ? ainfo.get(0) : null;
 	}

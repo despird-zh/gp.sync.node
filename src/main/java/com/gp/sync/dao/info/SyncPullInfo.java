@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.gp.info.TraceableInfo;
 
-public class NodePullInfo extends TraceableInfo<Long>{
+public class SyncPullInfo extends TraceableInfo<Long>{
 
 	private static final long serialVersionUID = -4887601189590299479L;
 
