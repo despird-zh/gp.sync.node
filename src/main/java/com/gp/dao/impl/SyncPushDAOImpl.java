@@ -1,4 +1,4 @@
-package com.gp.sync.dao.impl;
+package com.gp.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,44 +12,42 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 
 import com.gp.common.FlatColumns;
 import com.gp.common.FlatColumns.FilterMode;
 import com.gp.common.DataSourceHolder;
+import com.gp.dao.SyncPushDAO;
 import com.gp.dao.impl.DAOSupport;
+import com.gp.dao.info.SyncPushInfo;
 import com.gp.info.FlatColLocator;
 import com.gp.info.InfoId;
-import com.gp.sync.dao.SyncMsgInDAO;
-import com.gp.sync.dao.info.SyncMsgInInfo;
 
-@Component
-public class SyncMsgInDAOImpl extends DAOSupport implements SyncMsgInDAO{
+public class SyncPushDAOImpl extends DAOSupport implements SyncPushDAO{
 
-	Logger LOGGER = LoggerFactory.getLogger(SyncMsgInDAOImpl.class);
+	Logger LOGGER = LoggerFactory.getLogger(SyncPushDAOImpl.class);
 	
 	@Autowired
-	public SyncMsgInDAOImpl(@Qualifier(DataSourceHolder.DATA_SRC) DataSource dataSource) {
+	public SyncPushDAOImpl(@Qualifier(DataSourceHolder.DATA_SRC) DataSource dataSource) {
 		setDataSource(dataSource);
 	}
 	
 	@Override
-	public int create(SyncMsgInInfo info) {
+	public int create(SyncPushInfo info) {
 		StringBuffer SQL = new StringBuffer();
-		SQL.append("insert into gp_node_msg_in (")
-			.append("msg_id, pull_id, entity_code, node_code, ")
-			.append("trace_code, owm, sync_cmd, msg_data, ")
+		SQL.append("insert into gp_node_push (")
+			.append("push_id, entity_code, node_code, push_time,")
+			.append("start_owm, end_owm, push_data, ")
 			.append("modifier, last_modified")
 			.append(")values(")
-			.append("?,?,?,")
 			.append("?,?,?,?,")
+			.append("?,?,?,")
 			.append("?,?)");
 		
 		InfoId<Long> key = info.getInfoId();
 		
 		Object[] params = new Object[]{
-				key.getId(),info.getPullId(), info.getEntityCode(), info.getNodeCode(),
-				info.getTraceCode(), info.getOwm(), info.getSyncCommand(), info.getMsgData(),
+				key.getId(), info.getEntityCode(), info.getNodeCode(), info.getPushTime(),
+				info.getStartOwm(), info.getEndOwm(), info.getPushData(),
 				info.getModifier(),info.getModifyDate(),
 		};
 		if(LOGGER.isDebugEnabled()){
@@ -64,8 +62,8 @@ public class SyncMsgInDAOImpl extends DAOSupport implements SyncMsgInDAO{
 	@Override
 	public int delete(InfoId<?> id) {
 		StringBuffer SQL = new StringBuffer();
-		SQL.append("delete from gp_node_msg_in ")
-			.append("where msg_id = ? ");
+		SQL.append("delete from gp_node_push ")
+			.append("where push_id = ? ");
 		
 		JdbcTemplate jtemplate = this.getJdbcTemplate(JdbcTemplate.class);
 		Object[] params = new Object[]{
@@ -79,12 +77,12 @@ public class SyncMsgInDAOImpl extends DAOSupport implements SyncMsgInDAO{
 	}
 
 	@Override
-	public int update(SyncMsgInInfo info, FilterMode mode, FlatColLocator... filterCols) {
+	public int update(SyncPushInfo info, FilterMode mode, FlatColLocator... filterCols) {
 		Set<String> colset = FlatColumns.toColumnSet(filterCols);
 		List<Object> params = new ArrayList<Object>();
 	
 		StringBuffer SQL = new StringBuffer();
-		SQL.append("update gp_node_msg_in set ");
+		SQL.append("update gp_node_push set ");
 		
 		if(columnCheck(mode, colset, "node_code")){
 			SQL.append("node_code = ?,");
@@ -94,29 +92,25 @@ public class SyncMsgInDAOImpl extends DAOSupport implements SyncMsgInDAO{
 			SQL.append("entity_code = ? ,");
 			params.add(info.getEntityCode());
 		}
-		if(columnCheck(mode, colset, "pull_id")){
-			SQL.append("pull_id = ? , ");
-			params.add(info.getPullId());
+		if(columnCheck(mode, colset, "push_time")){
+			SQL.append("push_time = ? , ");
+			params.add(info.getPushTime());
 		}
-		if(columnCheck(mode, colset, "trace_code")){
-			SQL.append("trace_code = ?, ");
-			params.add(info.getTraceCode());
+		if(columnCheck(mode, colset, "start_owm")){
+			SQL.append("start_owm = ?, ");
+			params.add(info.getStartOwm());
 		}
-		if(columnCheck(mode, colset, "owm")){
-		SQL.append("owm = ?,");
-		params.add(info.getOwm());
+		if(columnCheck(mode, colset, "end_owm")){
+			SQL.append("end_owm = ?,");
+			params.add(info.getEndOwm());
 		}
-		if(columnCheck(mode, colset, "sync_cmd")){
-			SQL.append("sync_cmd = ?, ");
-			params.add(info.getSyncCommand());
-		}
-		if(columnCheck(mode, colset, "msg_data")){
-			SQL.append("msg_data = ?, ");
-			params.add(info.getMsgData());
+		if(columnCheck(mode, colset, "push_data")){
+			SQL.append("push_data = ?,");
+			params.add(info.getPushData());
 		}
 		
 		SQL.append("modifier = ?, last_modified = ? ")
-			.append("where msg_id = ? ");
+			.append("where push_id = ? ");
 		params.add(info.getModifier());
 		params.add(info.getModifyDate());
 		params.add(info.getInfoId().getId());
@@ -130,9 +124,9 @@ public class SyncMsgInDAOImpl extends DAOSupport implements SyncMsgInDAO{
 	}
 
 	@Override
-	public SyncMsgInInfo query(InfoId<?> id) {
-		String SQL = "select * from gp_node_msg_in "
-				+ "where msg_id = ? ";
+	public SyncPushInfo query(InfoId<?> id) {
+		String SQL = "select * from gp_node_push "
+				+ "where push_id = ? ";
 		
 		Object[] params = new Object[]{				
 				id.getId()
@@ -142,7 +136,7 @@ public class SyncMsgInDAOImpl extends DAOSupport implements SyncMsgInDAO{
 		if(LOGGER.isDebugEnabled()){			
 			LOGGER.debug("SQL : " + SQL.toString() + " / params : " + ArrayUtils.toString(params));
 		}
-		List<SyncMsgInInfo> ainfo = jtemplate.query(SQL, params, MAPPER);
+		List<SyncPushInfo> ainfo = jtemplate.query(SQL, params, MAPPER);
 		
 		return ainfo.size() > 0 ? ainfo.get(0) : null;
 	}

@@ -1,4 +1,4 @@
-package com.gp.sync.dao;
+package com.gp.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,21 +7,21 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.gp.common.IdKeys;
 import com.gp.dao.BaseDAO;
+import com.gp.dao.info.SyncMsgOutInfo;
 import com.gp.info.InfoId;
 import com.gp.sync.SyncIdKey;
-import com.gp.sync.dao.info.SyncMsgInInfo;
 
-public interface SyncMsgInDAO extends BaseDAO<SyncMsgInInfo>{
+public interface SyncMsgOutDAO extends BaseDAO<SyncMsgOutInfo>{
 
-	public static RowMapper<SyncMsgInInfo> MAPPER = new RowMapper<SyncMsgInInfo>() {
+	public static RowMapper<SyncMsgOutInfo> MAPPER = new RowMapper<SyncMsgOutInfo>() {
 
 		@Override
-		public SyncMsgInInfo mapRow(ResultSet rs, int arg1) throws SQLException {
-			SyncMsgInInfo info = new SyncMsgInInfo();
+		public SyncMsgOutInfo mapRow(ResultSet rs, int arg1) throws SQLException {
+			SyncMsgOutInfo info = new SyncMsgOutInfo();
 			
 			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.NODE_MSG_IN,rs.getLong("msg_id"));
 			info.setInfoId(id);
-			info.setPullId(rs.getLong("pull_id"));
+			info.setPushId(rs.getLong("push_id"));
 			info.setEntityCode(rs.getString("entity_code"));
 			info.setNodeCode(rs.getString("node_code"));
 			info.setTraceCode(rs.getString("trace_code"));

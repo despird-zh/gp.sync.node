@@ -1,4 +1,4 @@
-package com.gp.sync.dao;
+package com.gp.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,9 +7,9 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.gp.common.IdKeys;
 import com.gp.dao.BaseDAO;
+import com.gp.dao.info.SyncSourceInfo;
 import com.gp.info.InfoId;
 import com.gp.sync.SyncIdKey;
-import com.gp.sync.dao.info.SyncSourceInfo;
 
 public interface SyncSourceDAO extends BaseDAO<SyncSourceInfo>{
 

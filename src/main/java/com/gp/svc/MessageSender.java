@@ -1,4 +1,4 @@
-package com.gp.sync.svc;
+package com.gp.svc;
 
 import com.gp.sync.message.SyncNotifyMessage;
 

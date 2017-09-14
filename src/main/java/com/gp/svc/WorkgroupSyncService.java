@@ -1,4 +1,4 @@
-package com.gp.sync.svc;
+package com.gp.svc;
 
 import java.util.Date;
 import java.util.List;

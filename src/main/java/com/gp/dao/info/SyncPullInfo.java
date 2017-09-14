@@ -1,4 +1,4 @@
-package com.gp.sync.dao.info;
+package com.gp.dao.info;
 
 import java.util.Date;
 
