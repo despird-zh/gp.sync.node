@@ -9,9 +9,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.gp.common.IdKey;
 import com.gp.common.IdKeys;
 import com.gp.info.InfoId;
+import com.gp.sync.SyncType;
 import com.gp.sync.message.HelloMessage;
 import com.gp.sync.message.SyncPushMessage;
-import com.gp.sync.message.SyncType;
 
 public class SyncTests {
 

@@ -1,6 +1,6 @@
 package gp.test.comm;
 
-import com.gp.sync.message.SyncType;
+import com.gp.sync.SyncType;
 
 public class SyncTypeTest {
 

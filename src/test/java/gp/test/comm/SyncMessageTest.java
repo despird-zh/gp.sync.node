@@ -7,11 +7,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gp.common.IdKey;
 import com.gp.common.IdKeys;
 import com.gp.info.InfoId;
+import com.gp.sync.SyncMessages;
+import com.gp.sync.SyncType;
 import com.gp.sync.message.HelloMessage;
-import com.gp.sync.message.SyncMessages;
 import com.gp.sync.message.SyncNotifyMessage;
 import com.gp.sync.message.SyncPushMessage;
-import com.gp.sync.message.SyncType;
 
 import gp.sync.gui.SyncTests;
 

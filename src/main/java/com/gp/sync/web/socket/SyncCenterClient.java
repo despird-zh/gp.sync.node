@@ -16,7 +16,7 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import com.gp.sync.SyncConstants;
-import com.gp.sync.message.SyncMessages;
+import com.gp.sync.SyncMessages;
 import com.gp.sync.message.SyncPushMessage;
 
 /**

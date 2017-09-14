@@ -2,7 +2,6 @@ package com.gp.sync;
 
 import com.gp.disruptor.EventPayload;
 import com.gp.disruptor.EventType;
-import com.gp.sync.message.SyncMessage;
 
 public class SyncEventLoad extends EventPayload{
 
