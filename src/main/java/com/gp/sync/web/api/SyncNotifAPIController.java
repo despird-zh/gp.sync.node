@@ -17,12 +17,12 @@ import com.gp.web.servlet.ServiceTokenFilter;
  **/
 @Controller
 @RequestMapping(ServiceTokenFilter.FILTER_PREFIX)
-public class SyncPushAPIController extends BaseController{
+public class SyncNotifAPIController extends BaseController{
 
-	static Logger LOGGER = LoggerFactory.getLogger(SyncPushAPIController.class);
+	static Logger LOGGER = LoggerFactory.getLogger(SyncNotifAPIController.class);
 	
 	@RequestMapping(
-		    value = "sync-push", 
+		    value = "sync-notify", 
 		    method = RequestMethod.POST,
 		    consumes = {"text/plain", "application/*"})
 	public ModelAndView doSyncPush(@RequestBody(required = false) String payload) throws Exception {
