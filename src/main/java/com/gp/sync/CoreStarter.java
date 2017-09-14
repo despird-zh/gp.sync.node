@@ -25,7 +25,6 @@ import com.gp.disruptor.EventDispatcher;
 import com.gp.exception.BaseException;
 import com.gp.exception.CoreException;
 import com.gp.info.InfoId;
-import com.gp.sync.CoreStarter.CoreFacadeDelegate;
 
 /**
  * the core starter of application event engine.
