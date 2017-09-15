@@ -4,7 +4,7 @@ import com.gp.common.IdKeys;
 import com.gp.disruptor.EventDispatcher;
 import com.gp.exception.BaseException;
 import com.gp.launcher.CoreInitializer;
-import com.gp.launcher.LifecycleHooker;
+import com.gp.launcher.LifecycleListener;
 
 public class SyncCoreInitializer extends CoreInitializer{
 
@@ -13,14 +13,14 @@ public class SyncCoreInitializer extends CoreInitializer{
 	}
 
 	@Override
-	public LifecycleHooker setupLifecycleHooker() throws BaseException {
+	public LifecycleListener setupLifecycleHooker() throws BaseException {
 		
-		return new LifecycleHooker("SyncLifecycleHooker", 10){
+		return new LifecycleListener("SyncLifecycleHooker", 10){
 
 			@Override
 			public void initial() {
 				// add sync hooker to disruptor engine
-				SyncHooker syncHooker = new SyncHooker();
+				SyncEventListener syncHooker = new SyncEventListener();
 				EventDispatcher.getInstance().regEventHooker( syncHooker );
 				// Register the IdKey enums to IdKeys helper class.
 				IdKeys.addIdentifier(SyncIdKey.values());
