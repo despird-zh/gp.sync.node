@@ -2,6 +2,8 @@ package com.gp.config;
 
 import java.util.Locale;
 
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -18,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.gp.common.GPrincipal;
-import com.gp.sync.CoreStarter;
+import com.gp.sync.SyncNodeLauncher;
 import com.gp.web.DatabaseMessageSource;
 import com.gp.web.PrincipalLocaleResolver;
 
@@ -35,10 +37,19 @@ public class WebMVCConfigurer extends WebMvcConfigurerAdapter {
 	 * assembly the initializer to sort the LifecycleHooker with priority. 
 	 **/
 	@Bean 
-	ServletListenerRegistrationBean<CoreStarter> coreStarterListener(){
-		ServletListenerRegistrationBean<CoreStarter> listenerReg = new ServletListenerRegistrationBean<CoreStarter>();
-		
-		listenerReg.setListener(new CoreStarter());
+	ServletListenerRegistrationBean<ServletContextListener> coreStarterListener(){
+		ServletListenerRegistrationBean<ServletContextListener> listenerReg = new ServletListenerRegistrationBean<ServletContextListener>();
+		ServletContextListener coreListener = new  ServletContextListener() {
+
+			@Override
+			public void contextInitialized(ServletContextEvent sce) {}
+
+			@Override
+			public void contextDestroyed(ServletContextEvent sce) {
+				SyncNodeLauncher.getInstance(SyncNodeLauncher.class).engineOff();
+			}
+		};
+		listenerReg.setListener(coreListener);
 		return listenerReg;
 	}
 

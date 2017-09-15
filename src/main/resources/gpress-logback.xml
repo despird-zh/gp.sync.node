@@ -29,6 +29,6 @@
 	<logger name="com.gp.web.servlet.ServiceFilter" level="ERROR"/>
 	
     <root level="${LOG_LEVEL}">
-        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
     </root>
 </configuration>

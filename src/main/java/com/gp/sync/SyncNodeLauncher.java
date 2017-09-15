@@ -25,6 +25,7 @@ import com.gp.disruptor.EventDispatcher;
 import com.gp.exception.BaseException;
 import com.gp.exception.CoreException;
 import com.gp.info.InfoId;
+import com.gp.launcher.CoreLauncher;
 
 /**
  * the core starter of application event engine.
@@ -33,12 +34,12 @@ import com.gp.info.InfoId;
  * @version 0.1 2015-12-12
  * 
  **/
-public class CoreStarter implements ServletContextListener{
+public class SyncNodeLauncher extends CoreLauncher{
 	
-	static Logger LOGGER = LoggerFactory.getLogger(CoreStarter.class);
+	static Logger LOGGER = LoggerFactory.getLogger(SyncNodeLauncher.class);
 
 	@Override
-	public void contextDestroyed(ServletContextEvent arg0) {
+	public void engineOff() {
 		LOGGER.debug("ServletContextListener:CoreStarter destroying");
 		try {
 
@@ -51,7 +52,7 @@ public class CoreStarter implements ServletContextListener{
 	}
 	
 	@Override
-	public void contextInitialized(ServletContextEvent arg0) {
+	public void engineOn() {
 		LOGGER.debug("ContextInitFinishListener:CoreStarter starting");
 		try {
 			/** 
